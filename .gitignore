@@ -1,0 +1,24 @@
+### macOS ###
+# General Mac files
+.DS_Store
+
+# Thumbnails and resource forks
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+
+# VS Code settings and files
+.vscode/
+
+# Environment variables file that should be excluded
+.env
+
+# Docker Compose/Docker specific
+docker-compose.override.yml
+*.bak
+
+
+# Local logs and temporary files
+*.log
+*.tmp
