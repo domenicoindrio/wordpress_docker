@@ -1,9 +1,9 @@
 # Wordpress Blog with Docker
-This repository contains the code and the steps needed deploy a basic WordPress site (eg. a personal blog), backed by a MySQL database.
+This repository contains the code and the steps needed deploy a WordPress site (eg. a personal blog), backed by a MySQL database.
 
 Purpose of this project is to show how easily and quickly such a basic setup can be arranged using a **multi-container** configuration with Docker Compose.
 
-This repository was created as part of my training at the ***Developer Academy***.
+This repository was created during my training at the ***Developer Academy***.
 
 ## Table of contents
 - [Brief Note](#brief-note)
@@ -14,27 +14,29 @@ This repository was created as part of my training at the ***Developer Academy**
   - [Create and Setup the .env File](#create-and-setup-the-env-file)
   - [Start the WordPress Site](#start-the-wordpress-site-with-docker-compose)
 - [Usage](#usage)
-  - [WordPress Wizard](#wordpress-wizard)
+  - [WordPress Installation Wizard](#wordpress-wizard)
+  - [Startup Behavior](#startup-behavior)
   - [.env File](#env-file)
+  - [Logs](#logs)
   - [Data Persistency](#data-persistency)
   - [Useful Docker Commands](#useful-docker-commands)
-
+- [Future Improvements: Road to a Secure Production Setup](#future-improvements-road-to-a-secure-production-setup)
 ---
 
-## Brief note
-Docker provides official **WordPress** and **MySQL** images on Docker Hub.
-On the official Docker Hub page, a [Docker Compose example](https://hub.docker.com/_/wordpress) is already available and it works right out of the box.
+## Brief Note
+Docker provides official **WordPress** and **MySQL** images on Docker Hub.  
+On the official Docker Hub page, a simple [Docker Compose example](https://hub.docker.com/_/wordpress) is already available and it works right out of the box.
 
 For this project, that example served as a *canvas* and was modified to reflect the knowledge I have assimilated up to this point. 
 The core setup, a WordPress service and a database service, remains unchanged.
 
-> ***The setup provided here is intentionally simple and accessible, designed to get WordPress running in just a few steps, even for users new to Docker.***
+> *The setup provided here is intentionally simple and accessible, designed to get WordPress running in just a few steps, even for users new to Docker.*
 
 ---
 
 ## Quickstart
 ### Prerequisites
-- [Docker](https://docs.docker.com/engine/install/) (installed and running)
+- [Docker](https://docs.docker.com/engine/install/)
 - [Docker Compose](https://docs.docker.com/compose/install/) 
 - A terminal or shell environment of your choice
 - SSH access to a remote machine (optional for cloud testing)
@@ -47,14 +49,14 @@ ssh <user>@<remote_ip>
 ```
 --- 
 
-### Clone the repository
+### Clone the Repository
 ```bash
 git clone https://github.com/domenicoindrio/wordpress_docker.git
 cd wordpress_docker/
 ```
 ---
 
-### Create and setup the `.env` file
+### Create and Setup the `.env` File
 Copy the [provided template](./config_template.env) and adjust it to your needs:
 
 ```bash
@@ -62,7 +64,7 @@ cp config_template.env .env
 ```
 ---
 
-### Start the WordPress site with Docker Compose
+### Start the WordPress Site
 ```bash
 docker compose up -d
 ```
@@ -105,6 +107,19 @@ After spinning up the containers, and navigating to it, the WordPress wizard wil
 > After logging out, navigating to `http://<remote_ip>:8080` (or `http://localhost:8080`) will show the blog front page. To login again, visit `http://<remote_ip>:8080/wp-login.php` (or `http://localhost:8080/wp-login.php`).
 
 
+### Startup Behavior
+When you run:
+```bash
+docker compose up -d
+```
+- Both services (`db` and `wordpress`) are started simultaneously.
+- WordPress waits for the database to be ready **before** completing its startup.
+    This is controlled by:
+    - The `depends_on` setting in `docker-compose.yml`
+    - The `healtcheck` defined for the `db` service
+- The WordPress container will attempt to connect to the database **only after the healthcheck reports it as healthy**.
+- This ensures the installation wizard doesn't fail due to the database being unavailable at startup.
+
 ### .env file
 The provided template is ready to use.  
 
@@ -115,6 +130,23 @@ For cloud or remote testing, you should:
     chmod 600 .env
     ```
 - Uncomment and define **WordPress salts**
+
+### Logs
+To verify the startup process or debug issues:
+- Follow logs in real time
+```bash
+docker compose logs -f
+``` 
+
+- Check a single service:
+```bash
+docker compose logs db
+``` 
+
+- Save the logs to a file:
+```bash
+docker compose logs wordpress > wp_log.txt
+``` 
 
 ### Data Persistency 
 Both the database and WordPress data (eg, media uploads, themes, etc..) are stored in **Docker volumes**, ensuring persistence across restarts, container recreation, or crashes.
@@ -156,34 +188,18 @@ Here are some Docker Compose commands for different cases:
     ```
 
 > [!TIP]  
-> You can run these commands on single services, just append the **<service_name>**, eg.:
+> You can run these commands on single services, just append the `**<service_name>**`, eg.:
 > ```bash
 > docker compose restart wordpress
 > ```
 
 > [!NOTE]
 > Docker Compose commands are scoped to the current project directory.
-> To manage a project from anywhere, use the *project* `-p` flag, eg.:
+> To manage a project from anywhere, use the *project* `-p` flag followed by the project name, eg.:
 > ```bash
 > docker compose -p wordpress_docker restart
 > ```
 
-### Logs
-To verify the startup process or debug issues:
-- Follow logs in real time
-```bash
-docker compose logs -f
-``` 
-
-- Check a single service (append the <service_name> at the end):
-```bash
-docker compose logs db
-``` 
-
-- Save the logs to a file:
-```bash
-docker compose logs wordpress > wp_log.txt
-``` 
 
 ## Future Improvements: Road to a Secure Production Setup
 This repository provides a fully working, basic starting point, that can be of course expanded into a modern and secure production environment.
