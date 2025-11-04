@@ -1,5 +1,5 @@
 # Wordpress Blog with Docker
-This repository contains the code and the steps needed deploy a WordPress site (eg. a personal blog), backed by a MySQL database.
+This repository contains the code and the steps needed to deploy a WordPress site (eg. a personal blog), backed by a MySQL database.
 
 Purpose of this project is to show how easily and quickly such a basic setup can be arranged using a **multi-container** configuration with Docker Compose.
 
@@ -14,12 +14,12 @@ This repository was created during my training at the ***Developer Academy***.
   - [Create and Setup the .env File](#create-and-setup-the-env-file)
   - [Start the WordPress Site](#start-the-wordpress-site-with-docker-compose)
 - [Usage](#usage)
-  - [WordPress Installation Wizard](#wordpress-wizard)
+  - [WordPress Installation Wizard](#wordpress-installation-wizard)
   - [Startup Behavior](#startup-behavior)
   - [.env File](#env-file)
   - [Logs](#logs)
   - [Data Persistency](#data-persistency)
-  - [Useful Docker Commands](#useful-docker-commands)
+  - [Useful Docker Commands Cheat Sheet](#useful-docker-commands-cheat-sheet)
 - [Future Improvements: Road to a Secure Production Setup](#future-improvements-road-to-a-secure-production-setup)
 ---
 
@@ -133,7 +133,7 @@ For cloud or remote testing, you should:
 
 ### Logs
 To verify the startup process or debug issues:
-- Follow logs in real time
+- Follow logs in real time:
 ```bash
 docker compose logs -f
 ``` 
