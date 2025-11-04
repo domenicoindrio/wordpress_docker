@@ -12,7 +12,7 @@ This repository was created during my training at the ***Developer Academy***.
   - [Connect to the Remote Machine](#connect-to-the-remote-machine)
   - [Clone the Repository](#clone-the-repository)
   - [Create and Setup the .env File](#create-and-setup-the-env-file)
-  - [Start the WordPress Site](#start-the-wordpress-site-with-docker-compose)
+  - [Start the WordPress Site](#start-the-wordpress-site)
 - [Usage](#usage)
   - [WordPress Installation Wizard](#wordpress-installation-wizard)
   - [Startup Behavior](#startup-behavior)
@@ -106,6 +106,7 @@ After spinning up the containers, and navigating to it, the WordPress wizard wil
 > [!NOTE]
 > After logging out, navigating to `http://<remote_ip>:8080` (or `http://localhost:8080`) will show the blog front page. To login again, visit `http://<remote_ip>:8080/wp-login.php` (or `http://localhost:8080/wp-login.php`).
 
+---
 
 ### Startup Behavior
 When you run:
@@ -119,6 +120,8 @@ docker compose up -d
     - The `healtcheck` defined for the `db` service
 - The WordPress container will attempt to connect to the database **only after the healthcheck reports it as healthy**.
 - This ensures the installation wizard doesn't fail due to the database being unavailable at startup.
+
+---
 
 ### .env file
 The provided template is ready to use. Just replace the passwords fields marked with the `changeme` placeholder. 
@@ -135,6 +138,7 @@ For cloud or remote testing, you should:
 > `MYSQL_RANDOM_ROOT_PASSWORD=1` generates a random root password on container startup. Useful for local testing.  
 > For production you may prefer to explicitly define a `MYSQL_ROOT_PASSWORD`
 
+---
 
 ### Logs
 To verify the startup process or debug issues:
@@ -153,8 +157,12 @@ docker compose logs db
 docker compose logs wordpress > wp_log.txt
 ``` 
 
+---
+
 ### Data Persistency 
 Both the database and WordPress data (eg, media uploads, themes, etc..) are stored in **Docker volumes**, ensuring persistence across restarts, container recreation, or crashes.
+
+---
 
 ### Useful Docker Commands Cheat Sheet
 Here are some Docker Compose commands for different cases:  
@@ -187,7 +195,7 @@ Here are some Docker Compose commands for different cases:
     ```
 
 5. **Absolute Reset (fresh start, update images)**:  
-    <u>Completely resets the setup</u>. Removes everything and pulls the latest images before starting fresh:
+    Completely resets the setup. Removes everything and pulls the latest images before starting fresh:
     ```bash
     docker compose down -v && docker compose pull && docker compose up -d
     ```
