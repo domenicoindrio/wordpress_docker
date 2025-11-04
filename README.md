@@ -121,7 +121,7 @@ docker compose up -d
 - This ensures the installation wizard doesn't fail due to the database being unavailable at startup.
 
 ### .env file
-The provided template is ready to use.  
+The provided template is ready to use. Just replace the passwords fields marked with the `changeme` placeholder. 
 
 For cloud or remote testing, you should:
 - Replace defaults password with stronger ones.
@@ -129,7 +129,12 @@ For cloud or remote testing, you should:
     ```bash
     chmod 600 .env
     ```
-- Uncomment and define **WordPress salts**
+- Uncomment and define **WordPress salts** for stronger security.
+
+> [!NOTE]  
+> `MYSQL_RANDOM_ROOT_PASSWORD=1` generates a random root password on container startup. Useful for local testing.  
+> For production you may prefer to explicitly define a `MYSQL_ROOT_PASSWORD`
+
 
 ### Logs
 To verify the startup process or debug issues:
@@ -199,7 +204,6 @@ Here are some Docker Compose commands for different cases:
 > ```bash
 > docker compose -p wordpress_docker restart
 > ```
-
 
 ## Future Improvements: Road to a Secure Production Setup
 This repository provides a fully working, basic starting point, that can be of course expanded into a modern and secure production environment.
