@@ -30,7 +30,8 @@ On the official Docker Hub page, a simple [Docker Compose example](https://hub.d
 For this project, that example served as a *canvas* and was modified to reflect the knowledge I have assimilated up to this point. 
 The core setup, a WordPress service and a database service, remains unchanged.
 
-> *The setup provided here is intentionally simple and accessible, designed to get WordPress running in just a few steps, even for users new to Docker.*
+> [!IMPORTANT]  
+> The setup provided here is *intentionally simple* and accessible, designed to get WordPress running in just a few steps, even for users new to Docker.
 
 ---
 
@@ -51,7 +52,7 @@ ssh <user>@<remote_ip>
 
 ### Clone the Repository
 ```bash
-git clone https://github.com/domenicoindrio/wordpress_docker.git
+git clone git@github.com:domenicoindrio/wordpress_docker.git
 cd wordpress_docker/
 ```
 ---

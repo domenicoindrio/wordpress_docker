@@ -2,7 +2,7 @@ services:
 
   # Database service
   db:
-    image: mysql:latest
+    image: mysql:9.5.0
     container_name: wordpress_db
     restart: unless-stopped
     env_file:
@@ -22,7 +22,7 @@ services:
 
   # Wordpress app
   wordpress:
-    image: wordpress:latest
+    image: wordpress:6.8.3-apache
     container_name: wordpress_app
     restart: unless-stopped
     ports:
